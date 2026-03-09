@@ -33,25 +33,21 @@ public class Event {
     @Column(name = "image_url")
     private String imageUrl;
 
-    //開始時間：入力必須
-    @Column(name = "start_time", nullable = false)
+    //開始時間
+    @Column(name = "start_time")
     private LocalTime startTime;
 
-    //終了時間：入力必須
-    @Column(name = "end_time", nullable = false)
+    //終了時間
+    @Column(name = "end_time")
     private LocalTime endTime;
-
-    //定員：入力必須
-    @Column(nullable = false)
-    private Integer capacity;
-
-    //応募締切：入力必須
-    @Column(name = "entry_deadline", nullable = false)
-    private LocalDateTime entryDeadline;
 
     //ステータス：入力必須
     @Column(nullable = false)
-    private String status; // open / closed / finished (本来はEnum推奨)
+    private String status; // 未応募NOT_ENTERED, 応募中WAITING, 完了COMPLETED
+
+    // 1組あたりの平均時間（分）
+    @Column(name = "avg_time_per_queue")
+    private Integer avgTimePerQueue;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
