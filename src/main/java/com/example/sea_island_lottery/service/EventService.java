@@ -72,8 +72,6 @@ public class EventService {
         event.setName(eventDetails.getName());
         event.setDescription(eventDetails.getDescription());
         event.setImageUrl(eventDetails.getImageUrl());
-        event.setCapacity(eventDetails.getCapacity());
-        event.setEntryDeadline(eventDetails.getEntryDeadline());
         return eventRepository.save(event);
     }
 

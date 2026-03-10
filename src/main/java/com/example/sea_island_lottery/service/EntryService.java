@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class EntryService {
         dto.setId(entry.getId());
         dto.setEventId(entry.getEvent().getId());
         dto.setEventName(entry.getEvent().getName());
-        dto.setEntryDate(entry.getEntryDate());
+        // entryDate は Entry エンティティから削除されたため、設定しない
         dto.setStatus(entry.getStatus());
         dto.setCreatedAt(entry.getCreatedAt());
         return dto;
@@ -56,9 +55,9 @@ public class EntryService {
                 .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
 
         // 2. 応募が締め切られていないか確認
-        if (LocalDateTime.now().isAfter(event.getEntryDeadline())) {
-            throw new RuntimeException("Entry for this event is already closed.");
-        }
+        // if (LocalDateTime.now().isAfter(event.getEntryDeadline())) {
+        //     throw new RuntimeException("Entry for this event is already closed.");
+        // }
 
         // 4. 既に応募済みでないか確認 (これはDBのUNIQUE制約でも保証されるが、アプリケーションレベルでもチェック)
         // entryRepository.findByUserIdAndEventId(user.getId(), eventId).ifPresent(e -> {
@@ -69,8 +68,8 @@ public class EntryService {
         Entry newEntry = new Entry();
         newEntry.setUser(user);
         newEntry.setEvent(event);
-        newEntry.setStatus("pending"); // 初期ステータスは 'pending'
-        newEntry.setEntryDate(LocalDate.now()); // 応募日を設定
+        newEntry.setStatus("WAITING"); // 初期ステータスは 'WAITING'
+        // entryDate は Entry エンティティから削除されたため、設定しない
 
         return entryRepository.save(newEntry);
     }
@@ -80,5 +79,4 @@ public class EntryService {
         return entryRepository.findByUserId(user.getId());
     }
 
-    // 抽選処理などの複雑なロジックをここに追加していく
 }
