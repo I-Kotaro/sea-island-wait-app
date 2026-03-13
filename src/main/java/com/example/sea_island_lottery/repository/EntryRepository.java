@@ -14,16 +14,17 @@ import java.util.UUID;
 @Repository
 public interface EntryRepository extends JpaRepository<Entry, Long> {
 
-    // ユーザーの応募をすべて検索
+    // ユーザーの応募をすべて取得
     List<Entry> findByUserId(UUID userId);
 
     // イベントIDとステータスが一致する応募をカウント
     long countByEventIdAndStatus(Long eventId, String status);
 
-    // ステータスと作成日時で応募を検索
+    // ステータスと作成日時を使って3時間前の応募を取得
     List<Entry> findByStatusAndCreatedAtBefore(String status, LocalDateTime createdAt);
 
-    // ユーザーIDとイベントIDで応募を検索
+    // ユーザーIDとイベントIDで応募中イベントを取得
     Optional<Entry> findByUserIdAndEventId(UUID userId, Long eventId);
 
+    List<Entry> findByUserIdAndStatus(UUID userId, String status);
 }
