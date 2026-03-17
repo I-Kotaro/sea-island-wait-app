@@ -82,6 +82,6 @@ public class MyPageController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         userService.deleteUser(currentUser.getId());
-        return "redirect:/logout";
+        return "redirect:/";
     }
 }
