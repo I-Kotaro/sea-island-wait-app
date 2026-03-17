@@ -2,6 +2,7 @@ package com.example.sea_island_lottery.service;
 
 import com.example.sea_island_lottery.dto.UserDto;
 import com.example.sea_island_lottery.entity.User;
+import com.example.sea_island_lottery.repository.EntryRepository;
 import com.example.sea_island_lottery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,13 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final EntryRepository entryRepository;
 
     //自動でDI注入(new)するアノテーション
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EntryRepository entryRepository) {
         this.userRepository = userRepository;
+        this.entryRepository = entryRepository;
     }
 
     //DTO使用パターンで作成が必要なメソッド＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -66,7 +69,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //アカウント削除で使用メソッド
     public void deleteUser(UUID id) {
+        // 先にユーザーに紐づく応募情報を削除
+        entryRepository.deleteByUserId(id);
+
+        // その後にユーザーを削除
         userRepository.deleteById(id);
     }
 }
