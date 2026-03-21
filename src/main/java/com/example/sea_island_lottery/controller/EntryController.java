@@ -64,16 +64,17 @@ public class EntryController {
         return "redirect:/events/" + eventId + "?completed=true";
     }
 
+    // 受付完了orキャンセル時status指定
     @PostMapping("/entries/{id}/arrive")
     public String arrive(@PathVariable("id") Long id) {
-        // 到着（受付完了）時はステータスをCOMPLETEDに変更し、ルートへ戻す
-        eventService.updateEntryStatus(id, "COMPLETED"); 
+        // 受付完了時はステータスをNOT_ENTEREDに変更し、ルートへ戻す
+        eventService.updateEntryStatus(id, "NOT_ENTERED"); 
         return "redirect:/";
     }
 
     @PostMapping("/entries/{id}/cancel")
     public String cancel(@PathVariable("id") Long id) {
-        // キャンセル時はステータスをNOT_ENTEREDに戻し、ルートへ戻す
+        // キャンセル時もステータスをNOT_ENTEREDに戻し、ルートへ戻す
         eventService.updateEntryStatus(id, "NOT_ENTERED");
         return "redirect:/";
     }
