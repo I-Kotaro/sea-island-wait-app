@@ -6,15 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">海島SEA ISLAND</title>
-    <link href="/css/output.css" rel="stylesheet">
+    <!-- View Transitions API を有効化（MPA用） -->
+    <meta name="view-transition" content="same-origin">
+    <link rel="stylesheet" th:href="@{/css/output.css?v=1.1}">
     <!-- googleフォント -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-    <!-- 追加のCSSやスクリプトがあればここに書く -->
+
     <style>
         body {
             font-family: "Noto Sans JP", sans-serif;
+        }
+        /* ページ遷移のアニメーションを有効化 */
+        @view-transition {
+            navigation: auto;
         }
     </style>
 </head>
@@ -22,26 +28,26 @@
 
 <!-- 泡のエフェクト用コンテナ -->
 <div class="bubbles-container">
-    <div class="bubble" style="--size: 20px; --left: 10%; --duration: 7s; --delay: 0s; --drift: 30px;"></div>
-    <div class="bubble" style="--size: 10px; --left: 20%; --duration: 5s; --delay: 1s; --drift: -20px;"></div>
-    <div class="bubble" style="--size: 15px; --left: 35%; --duration: 9s; --delay: 2s; --drift: 40px;"></div>
-    <div class="bubble" style="--size: 25px; --left: 50%; --duration: 6s; --delay: 0.5s; --drift: -30px;"></div>
-    <div class="bubble" style="--size: 12px; --left: 65%; --duration: 8s; --delay: 3s; --drift: 25px;"></div>
-    <div class="bubble" style="--size: 18px; --left: 80%; --duration: 10s; --delay: 1.5s; --drift: -40px;"></div>
-    <div class="bubble" style="--size: 22px; --left: 90%; --duration: 7s; --delay: 4s; --drift: 15px;"></div>
-    <div class="bubble" style="--size: 8px; --left: 5%; --duration: 11s; --delay: 2.5s; --drift: 10px;"></div>
-    <div class="bubble" style="--size: 30px; --left: 42%; --duration: 12s; --delay: 0.2s; --drift: -50px;"></div>
-    <div class="bubble" style="--size: 14px; --left: 75%; --duration: 6.5s; --delay: 5s; --drift: 20px;"></div>
-    <div class="bubble" style="--size: 18px; --left: 15%; --duration: 8.5s; --delay: 0.5s; --drift: -25px;"></div>
-    <div class="bubble" style="--size: 24px; --left: 28%; --duration: 7.5s; --delay: 3.5s; --drift: 35px;"></div>
-    <div class="bubble" style="--size: 10px; --left: 45%; --duration: 5.5s; --delay: 1.5s; --drift: -15px;"></div>
-    <div class="bubble" style="--size: 20px; --left: 58%; --duration: 9.5s; --delay: 2.5s; --drift: 45px;"></div>
-    <div class="bubble" style="--size: 14px; --left: 72%; --duration: 6.8s; --delay: 4.5s; --drift: -35px;"></div>
-    <div class="bubble" style="--size: 28px; --left: 88%; --duration: 11s; --delay: 0.8s; --drift: 20px;"></div>
-    <div class="bubble" style="--size: 12px; --left: 3%; --duration: 7.2s; --delay: 5.5s; --drift: 30px;"></div>
-    <div class="bubble" style="--size: 16px; --left: 38%; --duration: 8s; --delay: 2.8s; --drift: -40px;"></div>
-    <div class="bubble" style="--size: 22px; --left: 62%; --duration: 6.2s; --delay: 1.2s; --drift: 25px;"></div>
-    <div class="bubble" style="--size: 10px; --left: 95%; --duration: 5.8s; --delay: 3.2s; --drift: -20px;"></div>
+    <div class="bubble" style="--size: 20px; --left: 10%; --duration: 7s; --delay: -2s; --drift: 30px;"></div>
+    <div class="bubble" style="--size: 10px; --left: 20%; --duration: 5s; --delay: -1s; --drift: -20px;"></div>
+    <div class="bubble" style="--size: 15px; --left: 35%; --duration: 9s; --delay: -5s; --drift: 40px;"></div>
+    <div class="bubble" style="--size: 25px; --left: 50%; --duration: 6s; --delay: -3s; --drift: -30px;"></div>
+    <div class="bubble" style="--size: 12px; --left: 65%; --duration: 8s; --delay: -6s; --drift: 25px;"></div>
+    <div class="bubble" style="--size: 18px; --left: 80%; --duration: 10s; --delay: -2s; --drift: -40px;"></div>
+    <div class="bubble" style="--size: 22px; --left: 90%; --duration: 7s; --delay: -4s; --drift: 15px;"></div>
+    <div class="bubble" style="--size: 8px; --left: 5%; --duration: 11s; --delay: -8s; --drift: 10px;"></div>
+    <div class="bubble" style="--size: 30px; --left: 42%; --duration: 12s; --delay: -1s; --drift: -50px;"></div>
+    <div class="bubble" style="--size: 14px; --left: 75%; --duration: 6.5s; --delay: -4s; --drift: 20px;"></div>
+    <div class="bubble" style="--size: 18px; --left: 15%; --duration: 8.5s; --delay: -5s; --drift: -25px;"></div>
+    <div class="bubble" style="--size: 24px; --left: 28%; --duration: 7.5s; --delay: -3.5s; --drift: 35px;"></div>
+    <div class="bubble" style="--size: 10px; --left: 45%; --duration: 5.5s; --delay: -1.5s; --drift: -15px;"></div>
+    <div class="bubble" style="--size: 20px; --left: 58%; --duration: 9.5s; --delay: -7.5s; --drift: 45px;"></div>
+    <div class="bubble" style="--size: 14px; --left: 72%; --duration: 6.8s; --delay: -4.5s; --drift: -35px;"></div>
+    <div class="bubble" style="--size: 28px; --left: 88%; --duration: 11s; --delay: -0.8s; --drift: 20px;"></div>
+    <div class="bubble" style="--size: 12px; --left: 3%; --duration: 7.2s; --delay: -5.5s; --drift: 30px;"></div>
+    <div class="bubble" style="--size: 16px; --left: 38%; --duration: 8s; --delay: -2.8s; --drift: -40px;"></div>
+    <div class="bubble" style="--size: 22px; --left: 62%; --duration: 6.2s; --delay: -1.2s; --drift: 25px;"></div>
+    <div class="bubble" style="--size: 10px; --left: 95%; --duration: 5.8s; --delay: -3.2s; --drift: -20px;"></div>
 </div>
 
 <!-- モバイルメニュー用オーバーレイ (背景の暗転) -->
@@ -59,7 +65,6 @@
     </div>
     <nav class="flex flex-col p-4 space-y-6">
         <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-400">イベント一覧</a>
-        
         <th:block sec:authorize="isAnonymous()">
             <a th:href="@{/login}" class="text-lg font-bold text-blue-600 hover:text-blue-400">ログイン</a>
             <a th:href="@{/register}" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center font-bold">新規登録</a>
@@ -110,9 +115,10 @@
     </div>
 </header>
 
-<main class="flex-grow container mx-auto p-4 mb-8" layout:fragment="content">
+<main id="main-content" class="flex-grow container mx-auto p-4 mb-8" layout:fragment="content">
     <!-- 各ページのコンテンツがここに挿入される -->
 </main>
+
 
 <footer class="bg-gray-200 p-4 mt-auto">
     <div class="container mx-auto text-center">
@@ -123,36 +129,40 @@
 <!-- サイドメニュー制御スクリプト -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        initMenu();
+    });
+
+    function initMenu() {
         const openBtn = document.getElementById('open-menu-button');
         const closeBtn = document.getElementById('close-menu-button');
         const overlay = document.getElementById('mobile-menu-overlay');
+
+        if (openBtn) openBtn.onclick = openMenu;
+        if (closeBtn) closeBtn.onclick = closeMenu;
+        if (overlay) overlay.onclick = closeMenu;
+    }
+
+    function openMenu() {
+        const overlay = document.getElementById('mobile-menu-overlay');
         const sideMenu = document.getElementById('mobile-side-menu');
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+            overlay.classList.remove('opacity-0');
+            sideMenu.classList.remove('translate-x-full');
+        }, 10);
+        document.body.classList.add('overflow-hidden');
+    }
 
-        function openMenu() {
-            overlay.classList.remove('hidden');
-            // アニメーションのために微小な遅延を入れる
-            setTimeout(() => {
-                overlay.classList.remove('opacity-0');
-                sideMenu.classList.remove('translate-x-full');
-            }, 10);
-            document.body.classList.add('overflow-hidden'); // 背後のスクロール禁止
-        }
-
-        function closeMenu() {
-            overlay.classList.add('opacity-0');
-            sideMenu.classList.add('translate-x-full');
-            document.body.classList.remove('overflow-hidden');
-
-            // アニメーション終了後に要素を隠す
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-            }, 300);
-        }
-
-        if (openBtn) openBtn.addEventListener('click', openMenu);
-        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
-        if (overlay) overlay.addEventListener('click', closeMenu);
-    });
+    function closeMenu() {
+        const overlay = document.getElementById('mobile-menu-overlay');
+        const sideMenu = document.getElementById('mobile-side-menu');
+        overlay.classList.add('opacity-0');
+        sideMenu.classList.add('translate-x-full');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+        }, 300);
+    }
 </script>
 
 <!-- 各ページ固有のスクリプトがここに挿入される -->

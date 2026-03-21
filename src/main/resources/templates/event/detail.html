@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div layout:fragment="content" class="py-9 relative z-10">
+<div layout:fragment="content" class="py-7 relative z-10">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden border-white/20">
             <!-- 画像エリア (アスペクト比を維持し、全体を表示) -->
@@ -87,8 +87,8 @@
 
                         <!-- 他のイベントに応募中の場合に表示 -->
                         <div th:if="${userEntry == null and hasActiveEntry}"
-                             class="w-full max-w-md bg-gray-300 text-base md:text-1xl text-gray-600 border px-8 py-4 rounded-full font-bold  text-center ">
-                            他のイベントに応募中のため<br class="sm:hidden">応募できません
+                             class="w-full max-w-md bg-gray-300 text-base text-1xl text-gray-600 border px-8 py-4 rounded-full font-bold text-center ">
+                            他のイベントに応募中の<br class="sm:hidden">ため応募できません
                         </div>
 
                         <!-- 応募ボタン (まだ応募していない かつ 他のイベントにも応募していない場合に表示) -->
@@ -99,7 +99,7 @@
                             <input type="hidden" name="eventId" th:value="${event.id}">
                             <button type="submit"
                                     class="w-full bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 hover:shadow-lg focus:ring-4 focus:ring-blue-200 transition duration-300 font-bold text-lg flex justify-center items-center group transform hover:-translate-y-0.5">
-                                <span class="text-base md:text-2xl">このイベントに応募する</span>
+                                <span class="text-base md:text-1xl">このイベントに応募する</span>
                                 <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
                                      stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -129,7 +129,7 @@
                     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
 
                     <!-- モーダルコンテンツ -->
-                    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4 relative md:scale-95 transition-all duration-300 border border-white/20">
+                    <div id="modal-content" class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4 relative scale-95 transition-all duration-300 border border-white/20">
                         <div class="text-center">
                             <!-- チェックマークアイコン -->
                             <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 shadow-inner">
@@ -160,37 +160,38 @@
             </div>
         </div>
     </div>
-</div>
 
-<!-- モーダル設定 -->
-<div layout:fragment="scripts">
+    <!-- モーダル制御スクリプト (HTMX遷移後も実行されるようにfragment内へ移動) -->
     <script th:inline="javascript">
-        document.addEventListener('DOMContentLoaded', () => {
+        function checkModal() {
             /*[[${showCompletionModal}]]*/
             const showModal = [[${showCompletionModal}]] || false;
-
             if (showModal) {
                 openModal();
             }
-        });
+        }
+
+        // 初回ロード時とHTMX遷移時の両方でチェック
+        checkModal();
+        document.addEventListener('htmx:afterOnLoad', checkModal);
 
         function openModal() {
             const modal = document.getElementById('completion-modal');
-            if (modal) {
-                const modalContent = modal.querySelector('div.bg-white');
+            const modalContent = document.getElementById('modal-content');
+            if (modal && modalContent) {
                 modal.classList.remove('hidden');
                 setTimeout(() => {
                     modal.classList.remove('opacity-0');
                     modalContent.classList.remove('scale-95');
                     modalContent.classList.add('scale-100');
-                }, 10);
+                }, 20);
             }
         }
 
         function closeModal() {
             const modal = document.getElementById('completion-modal');
-            if (modal) {
-                const modalContent = modal.querySelector('div.bg-white');
+            const modalContent = document.getElementById('modal-content');
+            if (modal && modalContent) {
                 modal.classList.add('opacity-0');
                 modalContent.classList.remove('scale-100');
                 modalContent.classList.add('scale-95');
@@ -201,5 +202,9 @@
         }
     </script>
 </div>
+
+<!-- ページ固有のスクリプトフラグメント (HTMX使用時はcontent内に記述するため空にする) -->
+<div layout:fragment="scripts"></div>
+
 </body>
 </html>
